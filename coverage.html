@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">/home/flameous/projects/bruh/algorithms/quicksort.go (100.0%)</option>
+				
+				<option value="file1">/home/flameous/projects/bruh/data_structures/list.go (100.0%)</option>
+				
+				<option value="file2">/home/flameous/projects/bruh/data_structures/lru.go (97.1%)</option>
+				
+				<option value="file3">/home/flameous/projects/bruh/data_structures/map.go (96.6%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package algorithms
+
+// (avg) time complexity = O(n * log_2 n)
+// space complexity = O(n)
+// TODO: quicksort in-place
+func quicksort(data []int) []int <span class="cov8" title="1">{
+        if len(data) &lt; 2 </span><span class="cov8" title="1">{
+                return data
+        }</span>
+
+        <span class="cov8" title="1">pivotIdx := len(data) / 2
+        var less, greater []int
+        for i := 0; i &lt; len(data); i++ </span><span class="cov8" title="1">{
+                if i != pivotIdx </span><span class="cov8" title="1">{
+                        if v := data[i]; v &lt; data[pivotIdx] </span><span class="cov8" title="1">{
+                                less = append(less, v)
+                        }</span> else<span class="cov8" title="1"> {
+                                greater = append(greater, v)
+                        }</span>
+                }
+        }
+
+        <span class="cov8" title="1">ret := make([]int, 0, len(data))
+
+        ret = append(ret, quicksort(less)...)
+        ret = append(ret, data[pivotIdx])
+        ret = append(ret, quicksort(greater)...)
+
+        return ret</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package structures
+
+// nil &lt;- head &lt;-&gt; ... &lt;-&gt; ... &lt;-&gt; tail -&gt; nil
+type LinkedList struct {
+        head *Node
+        tail *Node
+}
+
+type Node struct {
+        list *LinkedList
+        next *Node
+        prev *Node
+        val  int
+}
+
+// O(1)
+func (ll *LinkedList) enqueue(val int) *Node <span class="cov8" title="1">{
+        node := &amp;Node{
+                val:  val,
+                list: ll,
+        }
+
+        if ll.tail == nil </span><span class="cov8" title="1">{
+                ll.tail = node
+                ll.head = node
+                return node
+        }</span>
+
+        <span class="cov8" title="1">ll.tail.next = node
+        node.prev = ll.tail
+        ll.tail = node
+        return node</span>
+}
+
+// O(1)
+func (ll *LinkedList) dequeue() (int, bool) <span class="cov8" title="1">{
+        if ll.head == nil </span><span class="cov8" title="1">{
+                return 0, false
+        }</span>
+
+        <span class="cov8" title="1">val := ll.head.val
+        if ll.head == ll.tail </span><span class="cov8" title="1">{
+                ll.head = nil
+                ll.tail = nil
+                return val, true
+        }</span>
+
+        <span class="cov8" title="1">ll.head = ll.head.next
+        ll.head.prev = nil
+        return val, true</span>
+}
+
+// O(1)
+func (n *Node) remove() <span class="cov8" title="1">{
+        list := n.list
+        if list == nil </span><span class="cov8" title="1">{
+                return
+        }</span>
+
+        <span class="cov8" title="1">if n == list.tail || n == list.head </span><span class="cov8" title="1">{
+                if n == list.tail </span><span class="cov8" title="1">{
+                        list.tail = list.tail.prev
+                }</span>
+                <span class="cov8" title="1">if n == list.head </span><span class="cov8" title="1">{
+                        list.head = list.head.next
+                }</span>
+                <span class="cov8" title="1">return</span>
+        }
+
+        <span class="cov8" title="1">n.prev.next = n.next
+        n.next.prev = n.prev</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package structures
+
+type lruCache struct {
+        m          map[string]*lruNode
+        head, tail *lruNode
+        size       int
+}
+
+type lruNode struct {
+        key        string
+        val        int
+        prev, next *lruNode
+}
+
+func NewLRUCache(size int) *lruCache <span class="cov8" title="1">{
+        if size &lt; 2 </span><span class="cov0" title="0">{
+                panic("invalid size, bruh")</span>
+        }
+        <span class="cov8" title="1">return &amp;lruCache{
+                m:    make(map[string]*lruNode, size), // btw it can be ompimized a little bit
+                size: size,
+        }</span>
+}
+
+func (l *lruCache) get(key string) (int, bool) <span class="cov8" title="1">{
+        node, ok := l.m[key]
+        if !ok </span><span class="cov8" title="1">{
+                return 0, false
+        }</span>
+
+        <span class="cov8" title="1">l.pushToTop(node)
+        return node.val, true</span>
+}
+
+func (l *lruCache) set(key string, val int) <span class="cov8" title="1">{
+        if node, ok := l.m[key]; ok </span><span class="cov8" title="1">{
+                node.val = val
+                l.pushToTop(node)
+                return
+        }</span>
+
+        <span class="cov8" title="1">node := &amp;lruNode{
+                key: key,
+                val: val,
+        }
+        l.m[key] = node
+
+        if l.head == nil </span><span class="cov8" title="1">{
+                l.head = node
+                l.tail = node
+                return
+        }</span>
+
+        <span class="cov8" title="1">l.head.prev = node
+        node.next = l.head
+        l.head = node
+
+        if len(l.m) &gt; l.size </span><span class="cov8" title="1">{
+                // remove oldest value
+                delete(l.m, l.tail.key)
+                l.tail = l.tail.prev
+                l.tail.next = nil
+        }</span>
+}
+
+func (l *lruCache) pushToTop(node *lruNode) <span class="cov8" title="1">{
+        if node == l.head </span><span class="cov8" title="1">{
+                return
+        }</span>
+
+        <span class="cov8" title="1">if node == l.tail </span><span class="cov8" title="1">{
+                l.tail = l.tail.prev
+                l.tail.next = nil
+        }</span> else<span class="cov8" title="1"> {
+                node.prev.next = node.next
+                node.next.prev = node.prev
+        }</span>
+        <span class="cov8" title="1">l.head.prev = node
+        node.next = l.head
+        l.head = node</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package structures
+
+import (
+        "math/rand"
+        "time"
+)
+
+// map[string]int
+// TODO:
+// 1. handle collisions - done
+// 2. add resize feature - done
+// 3. handle non-ASCII keys - done
+type Map struct {
+        count    int
+        buckets  []*bucket
+        resizing bool
+}
+
+type bucket struct {
+        key  string
+        val  int
+        next *bucket
+}
+
+const (
+        initial_size = 8
+)
+
+var (
+        table [256]uint8 // 256
+)
+
+// TODO: comments
+func PearsonHash(key string, bucketsSize int) int <span class="cov8" title="1">{
+        if key == "" </span><span class="cov8" title="1">{
+                return 0
+        }</span>
+
+        <span class="cov8" title="1">var times int
+        if bucketsSize &lt;= 256 </span><span class="cov8" title="1">{
+                times = 1
+        }</span> else<span class="cov8" title="1"> {
+                bs := bucketsSize
+                for bs != 0 </span><span class="cov8" title="1">{
+                        bs = bs / 256
+                        times++
+                }</span>
+        }
+
+        <span class="cov8" title="1">var keyAsBytes = []byte(key)
+        var firstCharAsInt = int(keyAsBytes[0])
+
+        var finalHash uint64
+        for i := 0; i &lt; times; i++ </span><span class="cov8" title="1">{
+                hash := uint8((firstCharAsInt + i) % 256)
+                for _, b := range keyAsBytes </span><span class="cov8" title="1">{
+                        hash = table[hash^b]
+                }</span>
+                <span class="cov8" title="1">finalHash = (finalHash &lt;&lt; 8) | uint64(hash)</span>
+        }
+        // possible bug: resulting value may be larger than int (--&gt; overflow, negative idx)
+        <span class="cov8" title="1">return int(finalHash % uint64(bucketsSize))</span>
+}
+
+func init() <span class="cov8" title="1">{
+        rand.Seed(time.Now().UnixNano())
+        for idx, v := range rand.Perm(256) </span><span class="cov8" title="1">{
+                table[idx] = uint8(v)
+        }</span>
+}
+
+func NewMap() *Map <span class="cov8" title="1">{
+        return &amp;Map{
+                count:   0,
+                buckets: make([]*bucket, initial_size),
+        }
+}</span>
+
+func (m *Map) Insert(key string, val int) <span class="cov8" title="1">{
+        if !m.resizing </span><span class="cov8" title="1">{
+                m.checkAndResize()
+        }</span>
+
+        <span class="cov8" title="1">idx := PearsonHash(key, len(m.buckets))
+
+        if b := m.buckets[idx]; b != nil </span><span class="cov8" title="1">{
+                for </span><span class="cov8" title="1">{
+                        if b.key == key </span><span class="cov0" title="0">{
+                                b.val = val
+                                return
+                        }</span>
+                        <span class="cov8" title="1">if b.next == nil </span><span class="cov8" title="1">{
+                                m.count++
+                                b.next = &amp;bucket{
+                                        key: key,
+                                        val: val,
+                                }
+                                return
+                        }</span>
+                        <span class="cov8" title="1">b = b.next</span>
+                }
+        } else<span class="cov8" title="1"> {
+                m.count++
+                m.buckets[idx] = &amp;bucket{
+                        key: key,
+                        val: val,
+                }
+        }</span>
+}
+
+func (m *Map) Find(key string) (int, bool) <span class="cov8" title="1">{
+        idx := PearsonHash(key, len(m.buckets))
+        b := m.buckets[idx]
+
+        if b != nil </span><span class="cov8" title="1">{
+                for </span><span class="cov8" title="1">{
+                        if b.key == key </span><span class="cov8" title="1">{
+                                return b.val, true
+                        }</span>
+
+                        <span class="cov8" title="1">if b.next == nil </span><span class="cov8" title="1">{
+                                break</span>
+                        }
+                        <span class="cov8" title="1">b = b.next</span>
+                }
+        }
+
+        <span class="cov8" title="1">return 0, false</span>
+}
+
+func (m *Map) Remove(key string) <span class="cov8" title="1">{
+        if !m.resizing </span><span class="cov8" title="1">{
+                m.checkAndResize()
+        }</span>
+
+        <span class="cov8" title="1">idx := PearsonHash(key, len(m.buckets))
+        b := m.buckets[idx]
+
+        if b != nil </span><span class="cov8" title="1">{
+                if b.key == key </span><span class="cov8" title="1">{
+                        m.buckets[idx] = b.next
+                        m.count--
+                        return
+                }</span>
+
+                <span class="cov8" title="1">var prev *bucket
+                for </span><span class="cov8" title="1">{
+                        if b.key == key </span><span class="cov8" title="1">{
+                                prev.next = b.next
+                                m.count--
+                                return
+                        }</span>
+
+                        <span class="cov8" title="1">if b.next == nil </span><span class="cov0" title="0">{
+                                break</span>
+                        }
+                        <span class="cov8" title="1">prev = b
+                        b = b.next</span>
+                }
+        }
+}
+
+func (m *Map) checkAndResize() <span class="cov8" title="1">{
+        size := len(m.buckets)
+        loadPercentage := m.count * 100 / size
+
+        if loadPercentage &gt; 70 </span><span class="cov8" title="1">{
+                size = size &lt;&lt; 1
+                m.resizing = true
+        }</span> else<span class="cov8" title="1"> if loadPercentage &lt; 10 &amp;&amp; size &gt; initial_size </span><span class="cov8" title="1">{
+                size = size &gt;&gt; 1
+                m.resizing = true
+        }</span>
+
+        <span class="cov8" title="1">if m.resizing </span><span class="cov8" title="1">{
+                m.resize(size)
+        }</span>
+}
+
+func (m *Map) resize(newSize int) <span class="cov8" title="1">{
+        oldBuckets := m.buckets
+        m.buckets = make([]*bucket, newSize)
+        count := m.count
+
+        for _, bucket := range oldBuckets </span><span class="cov8" title="1">{
+                if bucket == nil </span><span class="cov8" title="1">{
+                        continue</span>
+                }
+                <span class="cov8" title="1">for </span><span class="cov8" title="1">{
+                        m.Insert(bucket.key, bucket.val)
+                        if bucket.next == nil </span><span class="cov8" title="1">{
+                                break</span>
+                        }
+                        <span class="cov8" title="1">bucket = bucket.next</span>
+                }
+        }
+        <span class="cov8" title="1">m.count = count
+        m.resizing = false</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
