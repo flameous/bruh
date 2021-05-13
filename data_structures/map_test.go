@@ -109,6 +109,7 @@ func TestMap_Remove(t *testing.T) {
 	}
 }
 
+// functionality comparison with built-in map
 func TestMap_functional(t *testing.T) {
 	builtinMap := make(map[string]int)
 	m := NewMap()
