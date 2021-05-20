@@ -145,6 +145,6 @@ func TestMap_functional(t *testing.T) {
 	}
 
 	if m.count != 0 {
-		t.Errorf("impl. map expected to be empty but it contains:\n%s\ncount = %d", m.str(), m.count)
+		t.Errorf("impl. map expected to be empty but it contains data (%d items)", m.count)
 	}
 }

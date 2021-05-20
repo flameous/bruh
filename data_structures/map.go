@@ -1,9 +1,7 @@
 package structures
 
 import (
-	"fmt"
 	"math/rand"
-	"strings"
 	"time"
 )
 
@@ -160,7 +158,6 @@ func (m *Map) Remove(key string) {
 			b = b.next
 		}
 	}
-	return
 }
 
 func (m *Map) checkAndResize() {
@@ -199,26 +196,4 @@ func (m *Map) resize(newSize int) {
 	}
 	m.count = count
 	m.resizing = false
-}
-
-func (m *Map) str() string {
-	rows := make([]string, len(m.buckets))
-
-	for idx, bucket := range m.buckets {
-		var rs []string
-		if bucket == nil {
-			rs = append(rs, "nil")
-		} else {
-			for {
-				rs = append(rs, fmt.Sprintf("{key: '%s', val: %d}", bucket.key, bucket.val))
-				if bucket.next == nil {
-					break
-				}
-				bucket = bucket.next
-			}
-		}
-		rows[idx] = fmt.Sprintf("%10d: [%s]", idx, strings.Join(rs, "->"))
-	}
-
-	return strings.Join(rows, "\n")
 }
