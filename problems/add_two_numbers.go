@@ -1,4 +1,4 @@
-package leetcode
+package problems
 
 type ListNode struct {
 	Val  int
