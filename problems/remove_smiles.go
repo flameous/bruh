@@ -40,6 +40,11 @@ func removeSmiles(origin []byte) []byte {
 
 //TODO: advanced version
 // "hello :-:-(()))world" -> "hello world"
+// fast approach
 func removeNestedSmiles(origin []byte) []byte {
-	return nil
+	var ret []byte
+	for ret = removeSmiles(origin); len(ret) != len(origin); ret = removeSmiles(origin) {
+		origin = ret
+	}
+	return ret
 }
