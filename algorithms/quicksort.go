@@ -48,4 +48,3 @@ func partition(data []int, low, high int) int {
 	data[high], data[i+1] = data[i+1], data[high]
 	return i + 1
 }
-

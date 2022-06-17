@@ -8,3 +8,7 @@ test:
 .PHONY:
 mod:
 	@go mod tidy
+
+.PHONY:
+fmt:
+	@go fmt ./...
