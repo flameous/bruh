@@ -1,6 +1,10 @@
 package structures
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/require"
+)
 
 func TestList(t *testing.T) {
 
@@ -17,18 +21,12 @@ func TestList(t *testing.T) {
 
 		for i := 1; i <= 6; i++ {
 			v, ok := ll.dequeue()
-			if !ok {
-				t.Fatal("expected value")
-			}
-			if v != i {
-				t.Fatalf("expected %d but got %d", i, v)
-			}
+			require.True(t, ok)
+			require.Equal(t, i, v)
 		}
 
 		_, ok := ll.dequeue()
-		if ok {
-			t.Fatal("queue must be empty")
-		}
+		require.False(t, ok)
 	})
 }
 
@@ -41,9 +39,7 @@ func TestListRemove(t *testing.T) {
 		n.remove()
 
 		val, ok := ll.dequeue()
-		if ok {
-			t.Error("expected empty queue, got val:", val)
-		}
+		require.Falsef(t, ok, "expected to be empty, but got %v", val)
 	})
 
 	t.Run("remove head", func(t *testing.T) {
@@ -55,12 +51,8 @@ func TestListRemove(t *testing.T) {
 		n.remove()
 
 		val, ok := ll.dequeue()
-		if !ok {
-			t.Error("expected empty queue")
-		}
-		if val != 2 {
-			t.Error("expected 2")
-		}
+		require.True(t, ok, "expected non-empty queue")
+		require.Equal(t, 2, val)
 	})
 
 	t.Run("remove node from the middle of queue", func(t *testing.T) {
@@ -75,13 +67,9 @@ func TestListRemove(t *testing.T) {
 
 		for _, expected := range []int{1, 3, 4, 5} {
 			val, ok := ll.dequeue()
-			if !ok {
-				t.Error("expected value")
-			}
+			require.True(t, ok, "expected non-empty queue")
+			require.Equal(t, expected, val)
 
-			if val != expected {
-				t.Errorf("expected value %d but got %d", expected, val)
-			}
 		}
 	})
 
@@ -93,10 +81,8 @@ func TestListRemove(t *testing.T) {
 
 		n.remove()
 
-		if !(ll.head.val == 2 && ll.tail.val == 3) {
-			t.Error("broken!")
-		}
-
+		require.Equal(t, 2, ll.head.val)
+		require.Equal(t, 3, ll.tail.val)
 	})
 
 	t.Run("remove tail", func(t *testing.T) {
@@ -107,9 +93,8 @@ func TestListRemove(t *testing.T) {
 
 		n.remove()
 
-		if !(ll.head.val == 1 && ll.tail.val == 2) {
-			t.Error("broken!!")
-		}
+		require.Equal(t, 1, ll.head.val)
+		require.Equal(t, 2, ll.tail.val)
 	})
 
 	t.Run("remove middle node (#2)", func(t *testing.T) {
@@ -119,9 +104,8 @@ func TestListRemove(t *testing.T) {
 		tail := ll.enqueue(3)
 
 		n.remove()
-		if !(ll.head == head && ll.tail == tail) {
-			t.Error("broken!")
-		}
+		require.Same(t, head, ll.head)
+		require.Same(t, tail, ll.tail)
 	})
 
 	t.Run("node with missing queue", func(t *testing.T) {

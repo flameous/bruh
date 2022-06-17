@@ -2,6 +2,8 @@ package structures
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestLRUCache(t *testing.T) {
@@ -18,16 +20,12 @@ func TestLRUCache(t *testing.T) {
 		n := cache.head
 		// iterate from the newest to the oldest values
 		for _, key := range []string{"e", "d", "c", "b"} {
-			if key != n.key {
-				t.Fatalf("expected %s but got %s", key, n.key)
-			}
+			require.Equal(t, key, n.key)
 			n = n.next
 		}
 
 		_, ok := cache.get("a")
-		if ok {
-			t.Fatal("'a' expected to be deleted from the cache")
-		}
+		require.False(t, ok)
 	})
 
 	t.Run("check value", func(t *testing.T) {
@@ -40,22 +38,15 @@ func TestLRUCache(t *testing.T) {
 
 		// [d c b a] --> [a d c b]
 		val, ok := cache.get("a")
-		if !ok {
-			t.Fatal("expected value")
-		}
-		if val != 1 {
-			t.Fatalf("expected 1 but got %d", val)
-		}
+		require.True(t, ok)
+
+		require.Equal(t, 1, val)
 
 		n := cache.head
-		if n.key != "a" {
-			t.Fatal("'a' expected to be the newest key-value pair in the lru cache")
-		}
+		require.Equal(t, "a", n.key)
 
 		for _, key := range []string{"a", "d", "c", "b"} {
-			if key != n.key {
-				t.Fatalf("expected %s but got %s", key, n.key)
-			}
+			require.Equal(t, key, n.key)
 			n = n.next
 		}
 	})
@@ -76,22 +67,14 @@ func TestLRUCache(t *testing.T) {
 		cache.set("c", 10)
 
 		val, ok := cache.get("c")
-		if !ok {
-			t.Fatal("expected value")
-		}
-		if val != 10 {
-			t.Fatalf("expected 10 but got %d", val)
-		}
+		require.True(t, ok)
+		require.Equal(t, 10, val)
 
 		n := cache.head
-		if n.key != "c" {
-			t.Fatal("'c' expected to be the newest key-value pair in the lru cache")
-		}
+		require.Equal(t, "c", n.key)
 
 		for _, key := range []string{"c", "a", "d", "b"} {
-			if key != n.key {
-				t.Fatalf("expected %s but got %s", key, n.key)
-			}
+			require.Equal(t, key, n.key)
 			n = n.next
 		}
 	})

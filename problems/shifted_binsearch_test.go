@@ -4,6 +4,8 @@ import (
 	"math/rand"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestShiftedBinanySearch(t *testing.T) {
@@ -24,19 +26,16 @@ func TestShiftedBinanySearch(t *testing.T) {
 	slice = append(slice, tmp[point:]...)
 	slice = append(slice, tmp[:point]...)
 
+	// flaky! sometimes
 	t.Run("find", func(t *testing.T) {
 		randIdx := rand.Intn(len(slice))
 		elem := slice[randIdx]
 
 		idx := shiftedBinanySearch(slice, elem)
 
-		if idx == -1 {
-			t.Fatalf("expected idx = %d, but got -1 (%d %d)", randIdx, elem, slice[randIdx])
-		}
+		t.Logf("random index = %d, elem = %d, array = %v\n", randIdx, elem, slice)
 
-		if randIdx != idx {
-			t.Fatalf("expected %d (value = %d), but got %d idx (value = %d)", randIdx, elem, idx, slice[idx])
-		}
+		require.Equal(t, randIdx, idx)
 	})
 
 	t.Run("find, corner case #1", func(t *testing.T) {
@@ -45,13 +44,7 @@ func TestShiftedBinanySearch(t *testing.T) {
 
 		idx := shiftedBinanySearch(slice, elem)
 
-		if idx == -1 {
-			t.Fatalf("expected idx = %d, but got -1 (%d %d)", exceptedIdx, elem, slice[exceptedIdx])
-		}
-
-		if exceptedIdx != idx {
-			t.Fatalf("expected %d (value = %d), but got %d idx (value = %d)", exceptedIdx, elem, idx, slice[idx])
-		}
+		require.Equal(t, exceptedIdx, idx)
 	})
 
 	t.Run("find, corner case #2", func(t *testing.T) {
@@ -60,13 +53,7 @@ func TestShiftedBinanySearch(t *testing.T) {
 
 		idx := shiftedBinanySearch(slice, elem)
 
-		if idx == -1 {
-			t.Fatalf("expected idx = %d, but got -1 (%d %d)", exceptedIdx, elem, slice[exceptedIdx])
-		}
-
-		if exceptedIdx != idx {
-			t.Fatalf("expected %d (value = %d), but got %d idx (value = %d)", exceptedIdx, elem, idx, slice[idx])
-		}
+		require.Equal(t, exceptedIdx, idx)
 	})
 
 	t.Run("find, corner case #3", func(t *testing.T) {
@@ -75,13 +62,7 @@ func TestShiftedBinanySearch(t *testing.T) {
 
 		idx := shiftedBinanySearch(tmp, elem)
 
-		if idx == -1 {
-			t.Fatalf("expected idx = %d, but got -1 (%d %d)", exceptedIdx, elem, tmp[exceptedIdx])
-		}
-
-		if exceptedIdx != idx {
-			t.Fatalf("expected %d (value = %d), but got %d idx (value = %d)", exceptedIdx, elem, idx, tmp[idx])
-		}
+		require.Equal(t, exceptedIdx, idx)
 	})
 
 	t.Run("not found", func(t *testing.T) {
@@ -89,8 +70,6 @@ func TestShiftedBinanySearch(t *testing.T) {
 
 		idx := shiftedBinanySearch(slice, elem)
 
-		if idx != -1 {
-			t.Fatalf("expected -1, but got %d idx (value = %d)", idx, slice[idx])
-		}
+		require.Equal(t, -1, idx)
 	})
 }

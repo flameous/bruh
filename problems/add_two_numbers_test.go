@@ -2,6 +2,8 @@ package problems
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func sumLL(n *ListNode) int {
@@ -48,9 +50,7 @@ func TestAddTwoNumbers(t *testing.T) {
 
 		expected := num1 + num2
 		got := sumLL(res)
-		if expected != got {
-			t.Fatalf("expected %d, got %d", expected, got)
-		}
+		require.Equal(t, expected, got)
 	})
 
 	t.Run("zero plus number", func(t *testing.T) {
@@ -64,9 +64,7 @@ func TestAddTwoNumbers(t *testing.T) {
 
 		expected := num1 + num2
 		got := sumLL(res)
-		if expected != got {
-			t.Fatalf("expected %d, got %d", expected, got)
-		}
+		require.Equal(t, expected, got)
 	})
 
 	t.Run("two numbers with different length", func(t *testing.T) {
@@ -80,9 +78,7 @@ func TestAddTwoNumbers(t *testing.T) {
 
 		expected := num1 + num2
 		got := sumLL(res)
-		if expected != got {
-			t.Fatalf("expected %d, got %d", expected, got)
-		}
+		require.Equal(t, expected, got)
 	})
 
 	t.Run("overflow", func(t *testing.T) {
@@ -96,9 +92,7 @@ func TestAddTwoNumbers(t *testing.T) {
 
 		expected := num1 + num2
 		got := sumLL(res)
-		if expected != got {
-			t.Fatalf("expected %d, got %d", expected, got)
-		}
+		require.Equal(t, expected, got)
 	})
 
 	t.Run("overflow at the last digit", func(t *testing.T) {
@@ -112,9 +106,7 @@ func TestAddTwoNumbers(t *testing.T) {
 
 		expected := num1 + num2
 		got := sumLL(res)
-		if expected != got {
-			t.Fatalf("expected %d, got %d", expected, got)
-		}
+		require.Equal(t, expected, got)
 	})
 
 	t.Run("overflow #3", func(t *testing.T) {
@@ -128,9 +120,7 @@ func TestAddTwoNumbers(t *testing.T) {
 
 		expected := num1 + num2
 		got := sumLL(res)
-		if expected != got {
-			t.Fatalf("expected %d, got %d", expected, got)
-		}
+		require.Equal(t, expected, got)
 	})
 
 }

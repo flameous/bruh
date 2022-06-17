@@ -1,7 +1,10 @@
 package problems
 
 import (
+	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func Test_dailyTemperatures(t *testing.T) {
@@ -26,14 +29,6 @@ func Test_dailyTemperatures(t *testing.T) {
 	for _, tc := range cases {
 		res := dailyTemperatures(tc.in)
 
-		if len(res) != len(tc.out) {
-			t.Fatalf("expected len = %d, but got = %d", len(tc.out), len(res))
-		}
-
-		for i := 0; i < len(res); i++ {
-			if res[i] != tc.out[i] {
-				t.Fatalf("expected val = %d, but got = %d", res[i], tc.out[i])
-			}
-		}
+		require.True(t, reflect.DeepEqual(tc.out, res))
 	}
 }

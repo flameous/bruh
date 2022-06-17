@@ -2,6 +2,8 @@ package problems
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestRemoveSmiles(t *testing.T) {
@@ -12,13 +14,7 @@ func TestRemoveSmiles(t *testing.T) {
 
 		got := removeSmiles(b)
 
-		if &got[0] != &got[0] {
-			t.Fatalf("there are different slices")
-		}
-
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 	t.Run("only smiles", func(t *testing.T) {
@@ -27,9 +23,7 @@ func TestRemoveSmiles(t *testing.T) {
 
 		got := removeSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 	t.Run("only smiles #2", func(t *testing.T) {
@@ -38,9 +32,7 @@ func TestRemoveSmiles(t *testing.T) {
 
 		got := removeSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 	t.Run("smile at the end", func(t *testing.T) {
@@ -49,9 +41,7 @@ func TestRemoveSmiles(t *testing.T) {
 
 		got := removeSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 	t.Run("smiles again", func(t *testing.T) {
@@ -60,9 +50,7 @@ func TestRemoveSmiles(t *testing.T) {
 
 		got := removeSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 	t.Run("not smiles", func(t *testing.T) {
@@ -71,9 +59,7 @@ func TestRemoveSmiles(t *testing.T) {
 
 		got := removeSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 }
 
@@ -85,9 +71,7 @@ func TestRemoveNestedSmiles(t *testing.T) {
 
 		got := removeNestedSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 	t.Run("nested smiles #2", func(t *testing.T) {
@@ -96,9 +80,7 @@ func TestRemoveNestedSmiles(t *testing.T) {
 
 		got := removeNestedSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 	t.Run("nested smiles #3", func(t *testing.T) {
@@ -107,9 +89,7 @@ func TestRemoveNestedSmiles(t *testing.T) {
 
 		got := removeNestedSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 	t.Run("nested smiles #4", func(t *testing.T) {
@@ -118,9 +98,7 @@ func TestRemoveNestedSmiles(t *testing.T) {
 
 		got := removeNestedSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 	t.Run("nested smiles #5", func(t *testing.T) {
@@ -129,9 +107,7 @@ func TestRemoveNestedSmiles(t *testing.T) {
 
 		got := removeNestedSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 	t.Run("nested smiles #6", func(t *testing.T) {
@@ -140,9 +116,7 @@ func TestRemoveNestedSmiles(t *testing.T) {
 
 		got := removeNestedSmiles(b)
 
-		if string(got) != expected {
-			t.Fatalf("expected '%s' but got '%s'", expected, string(got))
-		}
+		require.Equal(t, expected, string(got))
 	})
 
 }

@@ -24,7 +24,7 @@ func shiftedBinanySearch(arr []int, elem int) int {
 			if arr[r] >= elem {
 				l = mid + 1
 			} else {
-				r = mid - 1
+				r = mid - 1 // not covered, bug is probably here
 			}
 		}
 	}

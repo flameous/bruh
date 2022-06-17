@@ -1,6 +1,10 @@
 package problems
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/require"
+)
 
 func TestShipCount(t *testing.T) {
 
@@ -15,9 +19,8 @@ func TestShipCount(t *testing.T) {
 		}
 
 		count := shipCount(field)
-		if expected != count {
-			t.Fatalf("expected %d but got %d", expected, count)
-		}
+
+		require.Equal(t, expected, count)
 	})
 
 	t.Run("ships at the corners", func(t *testing.T) {
@@ -31,9 +34,8 @@ func TestShipCount(t *testing.T) {
 		}
 
 		count := shipCount(field)
-		if expected != count {
-			t.Fatalf("expected %d but got %d", expected, count)
-		}
+
+		require.Equal(t, expected, count)
 	})
 
 	t.Run("long ship", func(t *testing.T) {
@@ -47,9 +49,8 @@ func TestShipCount(t *testing.T) {
 		}
 
 		count := shipCount(field)
-		if expected != count {
-			t.Fatalf("expected %d but got %d", expected, count)
-		}
+
+		require.Equal(t, expected, count)
 	})
 
 	t.Run("long vertical ship", func(t *testing.T) {
@@ -63,9 +64,8 @@ func TestShipCount(t *testing.T) {
 		}
 
 		count := shipCount(field)
-		if expected != count {
-			t.Fatalf("expected %d but got %d", expected, count)
-		}
+
+		require.Equal(t, expected, count)
 	})
 
 	t.Run("a lot of ships", func(t *testing.T) {
@@ -83,9 +83,8 @@ func TestShipCount(t *testing.T) {
 		}
 
 		count := shipCount(field)
-		if expected != count {
-			t.Fatalf("expected %d but got %d", expected, count)
-		}
+
+		require.Equal(t, expected, count)
 	})
 
 }
