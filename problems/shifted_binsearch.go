@@ -6,25 +6,28 @@ func shiftedBinanySearch(arr []int, elem int) int {
 	l, r := 0, len(arr)-1
 
 	for l <= r {
-		mid := (l + r) / 2
+		m := (l + r) / 2
 
-		if arr[mid] == elem {
-			return mid
+		mid, left, right := arr[m], arr[l], arr[r]
+		if arr[m] == elem {
+			return m
 		}
 
-		if arr[mid] > elem {
-			if arr[l] <= elem {
-				r = mid - 1
+		// pivot point on the 'right' side
+		// 3 4 5 6 7 8 0 1 2
+		// l       m  ^    r
+		if left <= mid {
+			if elem < mid && left <= elem {
+				r = m - 1
 			} else {
-				l = mid + 1
+				l = m + 1
 			}
-		}
 
-		if arr[mid] < elem {
-			if arr[r] >= elem {
-				l = mid + 1
+		} else if mid <= right {
+			if mid < elem && elem <= right {
+				l = m + 1
 			} else {
-				r = mid - 1 // not covered, bug is probably here
+				r = m - 1
 			}
 		}
 	}

@@ -26,7 +26,6 @@ func TestShiftedBinanySearch(t *testing.T) {
 	slice = append(slice, tmp[point:]...)
 	slice = append(slice, tmp[:point]...)
 
-	// flaky! sometimes
 	t.Run("find", func(t *testing.T) {
 		randIdx := rand.Intn(len(slice))
 		elem := slice[randIdx]
@@ -35,7 +34,7 @@ func TestShiftedBinanySearch(t *testing.T) {
 
 		t.Logf("random index = %d, elem = %d, array = %v\n", randIdx, elem, slice)
 
-		require.Equal(t, randIdx, idx)
+		require.Equalf(t, randIdx, idx, "%v failed", randIdx)
 	})
 
 	t.Run("find, corner case #1", func(t *testing.T) {

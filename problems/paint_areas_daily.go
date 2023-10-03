@@ -1,6 +1,7 @@
 package problems
 
 // input:
+// we have a robot with array of jobs: paint an area. we need to calculate how much paint we'll waste for each job
 // 1D area (line)
 // array of jobs (needed to be done by order)
 // job is described with two dots - start and end of area needed to paint
