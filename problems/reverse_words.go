@@ -8,7 +8,6 @@ func reverseWords(words []rune) {
 		words[i], words[len(words)-1-i] = words[len(words)-1-i], words[i]
 	}
 
-
 	// find the end of each world and reverse it
 	// "og ni dlrow olleh"
 	// "og" -> "go"
@@ -36,4 +35,3 @@ func reverseWords(words []rune) {
 		i = wordEnd + 1
 	}
 }
-

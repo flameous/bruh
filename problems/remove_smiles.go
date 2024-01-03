@@ -38,7 +38,7 @@ func removeSmiles(origin []byte) []byte {
 	return ret
 }
 
-//TODO: advanced version
+// TODO: advanced version
 // "hello :-:-(()))world" -> "hello world"
 // fast approach
 func removeNestedSmiles(origin []byte) []byte {
